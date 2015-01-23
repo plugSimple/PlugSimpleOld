@@ -10,6 +10,10 @@ plugSimple = {
 		INFO: "009cdd",
 		DEFAULT: "ac76ff"
 	},
+	settings: {
+		autoWoot: false,
+		autoDJ: false,
+	},
 	logging: {
 		log: function(msg,debug){
 			if(debug){
@@ -51,7 +55,34 @@ plugSimple = {
 			}
 		}
 	},
-	core: {},
-	init: {},
-	gui: {}
+	core: {
+		createSettings: function(){
+			
+		},
+		saveSettings: function(){
+			localStorage.setItem("simplePlug",JSON.stringify(simplePlug.settings));
+			simplePlug.logging.info("Settings have been saved.",true);
+		}
+		getSettings: function(){
+			var c = JSON.parse(localStorage.getItem("simplePlug"));
+			simplePlug.settings = c;
+		}
+	},
+	init: {
+		main: function(){
+			
+		},
+		update: function(){
+			
+		}
+	},
+	gui: {
+		sendChat: function(m,c,b){
+			if(typeof m == "undefined"){
+				simplePlug.logging.error("InvalidUsage: simplePlug.gui.sendChat(message,color,badge)");
+			}else{
+				
+			}
+		},
+	}
 };
