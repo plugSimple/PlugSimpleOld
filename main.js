@@ -56,13 +56,10 @@ plugSimple = {
 		}
 	},
 	core: {
-		createSettings: function(){
-			
-		},
 		saveSettings: function(){
 			localStorage.setItem("simplePlug",JSON.stringify(simplePlug.settings));
 			simplePlug.logging.info("Settings have been saved.",true);
-		}
+		},
 		getSettings: function(){
 			var c = JSON.parse(localStorage.getItem("simplePlug"));
 			simplePlug.settings = c;
