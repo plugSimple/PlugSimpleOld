@@ -13,6 +13,7 @@ plugSimple = {
 	settings: {
 		autoWoot: false,
 		autoDJ: false,
+		debug: false
 	},
 	logging: {
 		log: function(msg,debug){
