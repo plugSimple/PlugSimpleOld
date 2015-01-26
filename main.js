@@ -80,8 +80,11 @@ plugSimple = {
 	init: {
 		main: function(){
 			var s = new Date().getMilliseconds();
-			plugSimple.core.getSettings();
-			
+			if(localStorage.getItem("pluggedIn") !== null){
+				plugSimple.core.getSettings();
+			}else{
+				plugSimple.core.saveSettings();
+			}
 			pluggedIn.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
 		},
 		update: function(){
