@@ -80,12 +80,12 @@ plugSimple = {
 	init: {
 		main: function(){
 			var s = new Date().getMilliseconds();
-			plugSimple.getSettings();
+			plugSimple.core.getSettings();
 			
 			pluggedIn.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
 		},
 		update: function(){
-			plugSimple.saveSettings();
+			plugSimple.core.saveSettings();
 			var q,
 				s = new Date().getMilliseconds();
 			
@@ -98,7 +98,7 @@ plugSimple = {
 			pluggedIn.core.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		stop: function(){
-			plugSimple.saveSettings();
+			plugSimple.core.saveSettings();
 			var q;
 			
 			for(q in API){
