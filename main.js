@@ -121,3 +121,5 @@ plugSimple = {
 		},
 	}
 };
+
+plugSimple.init.main();
