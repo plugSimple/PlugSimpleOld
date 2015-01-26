@@ -116,7 +116,7 @@ plugSimple = {
 			if(typeof m == "undefined"){
 				plugSimple.logging.error("InvalidUsage: plugSimple.gui.sendChat(message,color,badge)");
 			}else{
-				API.logChat((typeof f === "undefined" ? "": f+" - ")+m,c)//Temporary
+				API.chatLog((typeof f === "undefined" ? "": f+" - ")+m,c)//Temporary
 			}
 		},
 	}
