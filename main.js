@@ -24,7 +24,6 @@ plugSimple = {
 				console.log("%c"+plugSimple.PREFIX+msg,'color: #'+plugSimple.colors.DEFAULT+'; font-weight:700;');
 			}
 		},
-
 		warn: function(msg,debug){
 			if(debug){
 				if(plugSimple.settings.debug){
@@ -34,7 +33,6 @@ plugSimple = {
 				console.warn("%c"+plugSimple.PREFIX+msg,'color: #'+plugSimple.colors.ALERT+'; font-weight:700;');
 			}
 		},
-
 		error: function(msg,debug){
 			if(debug){
 				if(plugSimple.settings.debug){
@@ -44,7 +42,6 @@ plugSimple = {
 				console.error("%c"+plugSimple.PREFIX+msg,'color: #'+plugSimple.colors.WARN+'; font-weight:700;');
 			}
 		},
-
 		info: function(msg,debug){
 			if(debug){
 				if(plugSimple.settings.debug){
@@ -57,28 +54,69 @@ plugSimple = {
 	},
 	core: {
 		saveSettings: function(){
-			localStorage.setItem("simplePlug",JSON.stringify(simplePlug.settings));
-			simplePlug.logging.info("Settings have been saved.",true);
+			localStorage.setItem("plugSimple",JSON.stringify(plugSimple.settings));
+			plugSimple.logging.info("Settings have been saved.",true);
 		},
 		getSettings: function(){
-			var c = JSON.parse(localStorage.getItem("simplePlug"));
-			simplePlug.settings = c;
+			plugSimple.settings = JSON.parse(localStorage.getItem("plugSimple"));
+			plugSimple.logging.info("Retrieved Settings",true);
+		},	
+		autoWoot: function(){
+			$("#woot").click();
+			API.on(API.ADVANCE,function(){
+				$("#woot").click();
+				plugSimple.logging.info("Running AutoWoot",true);
+			});
+		},
+		autoDJ: function(){
+			API.on(API.ADVANCE,function(){
+				if(API.getWaitListPosition() === -1 && API.getDJ().id !== API.getUser().id){
+					$("#dj-button").click();
+					plugSimple.logging.info("Running AutoDJ",true);
+				}
+			});
 		}
 	},
 	init: {
 		main: function(){
+			var s = new Date().getMilliseconds();
+			plugSimple.getSettings();
 			
+			pluggedIn.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
 		},
 		update: function(){
+			plugSimple.saveSettings();
+			var q,
+				s = new Date().getMilliseconds();
 			
+			for(q in API){
+				if(typeof API[q] === "string"){
+					API.off(API[q]);
+				}
+			}
+			
+			pluggedIn.core.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
+		},
+		stop: function(){
+			plugSimple.saveSettings();
+			var q;
+			
+			for(q in API){
+				if(typeof API[q] === "string"){
+					API.off(API[q]);
+				}
+			}
+			
+			plugSimple.logging.warn("plugSimple has stopped.");
+			delete plugSimple;
 		}
 	},
 	gui: {
-		sendChat: function(m,c,b){
+		sendChat: function(m,c,b,f){
 			if(typeof m == "undefined"){
-				simplePlug.logging.error("InvalidUsage: simplePlug.gui.sendChat(message,color,badge)");
+				plugSimple.logging.error("InvalidUsage: plugSimple.gui.sendChat(message,color,badge)");
 			}else{
-				
+				API.logChat((typeof f === "undefined" ? "": f+" - ")+m,c)//Temporary
 			}
 		},
 	}
