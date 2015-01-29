@@ -86,7 +86,7 @@ plugSimple = {
 			}else{
 				plugSimple.core.saveSettings();
 			}
-			plugSimple.core.info("Started in "+(new Date().getMilliseconds() - s)+"ms",true);
+			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		update: function(){
 			plugSimple.core.saveSettings();
@@ -99,7 +99,7 @@ plugSimple = {
 				}
 			}
 			
-			plugSimple.core.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
+			plugSimple.logging.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		stop: function(){
 			plugSimple.core.saveSettings();
