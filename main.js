@@ -86,7 +86,7 @@ plugSimple = {
 			}else{
 				plugSimple.core.saveSettings();
 			}
-			plugSimple.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
+			plugSimple.core.info("Started in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		update: function(){
 			plugSimple.core.saveSettings();
