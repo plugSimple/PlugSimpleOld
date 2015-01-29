@@ -81,12 +81,12 @@ plugSimple = {
 	init: {
 		main: function(){
 			var s = new Date().getMilliseconds();
-			if(localStorage.getItem("pluggedIn") !== null){
+			if(localStorage.getItem("plugSimple") !== null){
 				plugSimple.core.getSettings();
 			}else{
 				plugSimple.core.saveSettings();
 			}
-			pluggedIn.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
+			plugSimple.core.info("Started in "+(new Date().getMilliseconds() - start)+"ms",true);
 		},
 		update: function(){
 			plugSimple.core.saveSettings();
@@ -99,7 +99,7 @@ plugSimple = {
 				}
 			}
 			
-			pluggedIn.core.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
+			plugSimple.core.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		stop: function(){
 			plugSimple.core.saveSettings();
