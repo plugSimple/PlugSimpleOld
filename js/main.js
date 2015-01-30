@@ -149,7 +149,7 @@ plugSimple = {
             }else if(type == "info"){
 				
 			}else{
-                $box.append("<i class="icon icon-plugcubed"></i>");
+                $box.append("<i class=\"icon icon-plugcubed\"></i>");
                 $msgSpan.css("color", color ? "#"+color : "#d1d1d1");
             }
 
@@ -170,27 +170,27 @@ plugSimple = {
 
                     if (API.hasPermission(from.id, API.ROLE.HOST, true)) {
                         $message.addClass("from-admin");
-                        $from.addClass("admin").append("<i class="icon icon-chat-admin"></i>");
+                        $from.addClass("admin").append("<i class=\"icon icon-chat-admin\"></i>");
                     } else if (API.hasPermission(from.id, API.ROLE.BOUNCER, true)) {
                         $message.addClass("from-ambassador");
-                        $from.addClass("ambassador").append("<i class="icon icon-chat-ambassador"></i>");
+                        $from.addClass("ambassador").append("<i class=\"icon icon-chat-ambassador\"></i>");
                     } else if (API.hasPermission(from.id, API.ROLE.BOUNCER)) {
                         $from.addClass("staff");
                         if (API.hasPermission(from.id, API.ROLE.HOST))
                             $message.addClass("from-host");
                         if (API.hasPermission(from.id, API.ROLE.COHOST)) {
                             $message.addClass("from-cohost");
-                            $from.append("<i class="icon icon-chat-host"></i>");
+                            $from.append("<i class=\"icon icon-chat-host\"></i>");
                         } else if (API.hasPermission(from.id, API.ROLE.MANAGER)) {
                             $message.addClass("from-manager");
-                            $from.append("<i class="icon icon-chat-manager"></i>");
+                            $from.append("<i class=\"icon icon-chat-manager\"></i>");
                         } else if (API.hasPermission(from.id, API.ROLE.BOUNCER)) {
                             $message.addClass("from-bouncer");
-                            $from.append("<i class="icon icon-chat-bouncer"></i>");
+                            $from.append("<i class=\"icon icon-chat-bouncer\"></i>");
                         }
                     } else if (API.hasPermission(from.id, API.ROLE.DJ)) {
                         $message.addClass("from-dj");
-                        $from.addClass("dj").append("<i class="icon icon-chat-dj"></i>");
+                        $from.addClass("dj").append("<i class=\"icon icon-chat-dj\"></i>");
                     } else if (from.id == API.getUser().id) {
                         $message.addClass("from-you");
                         $from.addClass("you");
