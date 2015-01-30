@@ -103,14 +103,14 @@ plugSimple = {
 				}
 			}
 			
-			plugSimple.logging.warn("plugSimple has stopped "(typeof e == "undefined" ? (".")(e+".")));
+			plugSimple.logging.warn("plugSimple has stopped "+(typeof e == "undefined" ? (".")(e+".")));
 			delete plugSimple;
 		}
 	},
 	gui: {
 		sendChat: function(m,c,b,f){
 			if(typeof m == "undefined"){
-				plugSimple.logging.error("InvalidUsage: plugSimple.gui.sendChat(message,color,badge)");
+				plugSimple.logging.error("InvalidUsage: plugSimple.gui.sendChat(message,color,badge,from)");
 			}else{
 				API.chatLog((typeof f === "undefined" ? "": f+" - ")+m,c)//Temporary
 			}
