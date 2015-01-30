@@ -107,7 +107,7 @@ plugSimple = {
 				}
 			}
 			
-			plugSimple.logging.warn("plugSimple has stopped "+(typeof e == "undefined" ? (".")(e+".")));
+			plugSimple.logging.warn("plugSimple has stopped ["+e+"].")));
 			delete plugSimple;
 		}
 	},
