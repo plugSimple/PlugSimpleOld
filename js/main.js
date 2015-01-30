@@ -78,10 +78,6 @@ plugSimple = {
 			}else{
 				plugSimple.core.saveSettings();
 			}
-			
-			if(plugSimple.settings.autoWoot){plugSimple.core.autoWoot();}
-			if(plugSimple.settings.autoDJ){plugSimple.core.autoDJ();}
-			
 			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		update: function(){
