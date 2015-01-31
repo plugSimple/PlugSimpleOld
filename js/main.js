@@ -109,6 +109,9 @@ plugSimple = {
 				}
 			}
 			
+			if(plugSimple.settings.autoWoot){plugSimple.core.autoWoot();}
+			if(plugSimple.settings.autoDJ){plugSimple.core.autoDJ();}
+			
 			plugSimple.logging.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		stop: function(e){
