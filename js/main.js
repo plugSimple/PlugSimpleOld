@@ -62,6 +62,7 @@ plugSimple = {
 			});
 		},
 		autoDJ: function(){
+			if(API.getWaitListPosition() === -1 && API.getDJ().id !== API.getUser().id){$("#dj-button").click();}
 			API.on(API.ADVANCE,function(){
 				if(API.getWaitListPosition() === -1 && API.getDJ().id !== API.getUser().id){
 					$("#dj-button").click();
