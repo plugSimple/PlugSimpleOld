@@ -17,8 +17,8 @@ plugSimple = {
 		]
 	},
 	settings: {
-		autoWoot: false,
-		autoDJ: false,
+		autowoot: false,
+		autodj: false,
 		debug: false
 	},
 	logging: {
@@ -80,20 +80,31 @@ plugSimple = {
 	init: {
 		main: function(){
 			var s = new Date().getMilliseconds();
+			//LOAD EXTERNAL SCRIPTS
+			$.getScript("https://rawgit.com/itotallyrock/PlugInterfaceAPI/master/plugInterfaceAPI.js");
+			$.getScript("https://rawgit.com/itotallyrock/PlugCommandAPI/master/plugCommandAPI.js");
+			
 			if(localStorage.getItem("plugSimple") !== null){
 				plugSimple.core.getSettings();
 			}else{
 				plugSimple.core.saveSettings();
 			}
 			
-			if(plugSimple.settings.autoWoot){plugSimple.core.autoWoot();}
-			if(plugSimple.settings.autoDJ){plugSimple.core.autoDJ();}
+			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
+			if(plugSimple.settings.autodj){plugSimple.core.autoDJ();}
+			
+			var settingsCommand = new Command("settings",["type"]);
+			settingsCommand.callback = function(a){
+				plugSimple.settings[a[0]] = !plugSimple.settings[a[0]];
+				//plugInterface.chat("",(plugSimple.settings[a[0]] ? "Enabled" : "Disabled")+" AutoWoot"){}
+				plugSimple.logging.info((plugSimple.settings[a[0]] ? "Enabled" : "Disabled")+" "+a);
+			};
 			
 			API.on(API.CHAT, function(e){
 				$(".cm[data-cid=\""+e.cid+"\"] > .badge-box").css("border","2px solid #"+plugSimple.colors.status[API.getUser(e.uid).status]);
 			});
 			
-			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms",true);
+			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms");
 		},
 		update: function(){
 			plugSimple.core.saveSettings();
@@ -106,8 +117,8 @@ plugSimple = {
 				}
 			}
 			
-			if(plugSimple.settings.autoWoot){plugSimple.core.autoWoot();}
-			if(plugSimple.settings.autoDJ){plugSimple.core.autoDJ();}
+			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
+			if(plugSimple.settings.autodj){plugSimple.core.autoDJ();}
 			
 			API.on(API.CHAT, function(e){
 				$(".cm[data-cid=\""+e.cid+"\"] > .badge-box").css("border","2px solid #"+plugSimple.colors.status[API.getUser(e.uid).status]);
@@ -128,9 +139,6 @@ plugSimple = {
 			plugSimple.logging.warn("plugSimple has stopped ["+e+"].");
 			delete plugSimple;
 		}
-	},
-	gui: {
-		//
 	}
 };
 
