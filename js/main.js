@@ -95,6 +95,7 @@ plugSimple = {
 			
 			var settingsCommand = new Command("settings",["type"]);
 			settingsCommand.callback = function(a){
+				a = a.toLowerCase();
 				plugSimple.settings[a[0]] = !plugSimple.settings[a[0]];
 				//plugInterface.chat("",(plugSimple.settings[a[0]] ? "Enabled" : "Disabled")+" AutoWoot"){}
 				plugSimple.logging.info((plugSimple.settings[a[0]] ? "Enabled" : "Disabled")+" "+a);
