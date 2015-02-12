@@ -25,28 +25,28 @@ plugSimple = {
 		log: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
 				console.log("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700;");
-			}else{
+			}else if(!debug){
 				console.log("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700;");
 			}
 		},
 		warn: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
 				console.warn("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.ERROR+"; font-weight:700;");
-			}else{
+			}else if(!debug){
 				console.warn("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.ERROR+"; font-weight:700;");
 			}
 		},
 		error: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
 				console.error("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.WARN+"; font-weight:700;");
-			}else{
+			}else if(!debug){
 				console.error("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.WARN+"; font-weight:700;");
 			}
 		},
 		info: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
 				console.info("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.INFO+"; font-weight:700;");
-			}else{
+			}else if(!debug){
 				console.info("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.INFO+"; font-weight:700;");
 			}
 		}
