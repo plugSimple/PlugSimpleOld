@@ -64,6 +64,11 @@ plugSimple = {
 			plugSimple.settings = JSON.parse(localStorage.getItem("plugSimple"));
 			plugSimple.logging.info("Retrieved Settings",true);
 		},
+		clearSettings: function(){
+			localStorage.removeItem("plugSimple");
+			plugSimple.logging.info("Cleared Settings",true);
+			plugSimple.core.getSettings();
+		},
 		getTick: function(){
 			return plugSimple.tickNum;
 		},
@@ -121,6 +126,7 @@ plugSimple = {
 			
 			if(typeof Command == "Command"){plugSimple.init.cmd();}
 			
+			$("#dj-button").html($("#dj-button").html()+"<div class=\"bottom\"><span class=\"plugSimple-eta\"></span></div>")
 			$("#dj-button > .bottom").css("margin-top","-40px");
 			
 			API.on(API.CHAT, function(e){
