@@ -82,7 +82,7 @@ plugSimple = {
 				}
 				avg = histlength/history.length;
 				
-				var sn = parseInt((API.getWaitListPosition().length == -1 ? API.getWaitList().length : API.getWaitListPosition())*avg+API.getTimeRemaining(), 10);
+				var sn = parseInt((API.getWaitListPosition() == -1 ? API.getWaitList().length : API.getWaitListPosition())*avg+API.getTimeRemaining(), 10);
 				var h = Math.floor(sn / 3600);
 				var m = Math.floor((sn - (h * 3600)) / 60);
 				var s = sn - (h * 3600) - (m * 60);
@@ -138,10 +138,14 @@ plugSimple = {
 			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms");
 		},
 		tick: function(){//WILL RUN EVERY TICKRATE
+			var s = new Date().getMilliseconds();
 			if(plugSimple.tickNum%10 == 0 && plugSimple.settings.tickLog){
 				plugSimple.logging.log("TICK #"+plugSimple.tickNum,true);
 			}
 			$(".plugSimple-eta").text(plugSimple.core.getETA());
+			if(new Date().getMilliseconds() - s > 1000){
+				plugSimple.logging.info("Tick took longer than tickRate: "+(new Date().getMilliseconds() - s)+"ms",true);
+			}
 		},
 		cmd: function(){//Initialize commands
 			new Command("settings",["type"]).callback = function(a){
