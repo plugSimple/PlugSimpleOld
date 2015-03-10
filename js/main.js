@@ -133,7 +133,7 @@ plugSimple = {
 				$(".cm[data-cid=\""+e.cid+"\"] > .badge-box").css("border","2px solid #"+plugSimple.colors.status[API.getUser(e.uid).status]);
 			});
 			
-			plugSimple.tick = setInterval(function(){plugSimple.init.tick();plugSimple.tickNum++;},plugSimple.tickRate*1000);
+			plugSimple.tick = setInterval(function(){plugSimple.init.tick();plugSimple.tickNum++;},(1/plugSimple.tickRate)*1000);
 			
 			plugSimple.logging.info("Started in "+(new Date().getMilliseconds() - s)+"ms");
 		},
@@ -168,6 +168,9 @@ plugSimple = {
 					API.off(API[q]);
 				}
 			}
+			
+			clearInterval(plugSimple.tick);
+			plugSimple.tick = setInterval(function(){plugSimple.init.tick();plugSimple.tickNum++;},(1/plugSimple.tickRate)*1000);
 			
 			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
 			if(plugSimple.settings.autodj){plugSimple.core.autoDJ();}
