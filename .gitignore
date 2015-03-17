@@ -1,3 +1,4 @@
 *.zip
 *.psd
+/external
 manifest.json

@@ -1,8 +1,8 @@
-
+if(typeof plugSimple != "undefined"){plugSimple.init.stop("Launching new instance");}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "v0.00.2-Beta",
-	PREFIX: "PlugSimple » ",
+	VERSION: "0.03.1",
+	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
 		WARN: "ddbb00",
@@ -16,6 +16,10 @@ plugSimple = {
 			"ac76ff" //Gaming
 		]
 	},
+	img: {
+		AUTOWOOT_ON: "https://raw.githubusercontent.com/itotallyrock/PlugSimple/master/img/autowoot-on.png",
+		AUTOWOOT_OFF: "https://raw.githubusercontent.com/itotallyrock/PlugSimple/master/img/autowoot-dis.png"
+	},
 	tickRate: 1,//Ticks per second
 	tickNum: 0,
 	tick: "",
@@ -28,30 +32,37 @@ plugSimple = {
 	logging: {
 		log: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
-				console.log("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700;");
+				console.log("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700",msg);
 			}else if(!debug){
-				console.log("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700;");
+				console.log("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700",msg);
 			}
 		},
 		warn: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
-				console.warn("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.ERROR+"; font-weight:700;");
+				console.warn("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.WARN+"; font-weight:700",msg);
 			}else if(!debug){
-				console.warn("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.ERROR+"; font-weight:700;");
+				console.warn("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.WARN+"; font-weight:700",msg);
 			}
 		},
 		error: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
-				console.error("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.WARN+"; font-weight:700;");
+				console.error("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.ERROR+"; font-weight:700",msg);
 			}else if(!debug){
-				console.error("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.WARN+"; font-weight:700;");
+				console.error("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.ERROR+"; font-weight:700",msg);
 			}
 		},
 		info: function(msg,debug){
 			if(debug && plugSimple.settings.debug){
-				console.info("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.INFO+"; font-weight:700;");
+				console.info("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.INFO+"; font-weight:700",msg);
 			}else if(!debug){
-				console.info("%c"+plugSimple.PREFIX+msg,"color: #"+plugSimple.colors.INFO+"; font-weight:700;");
+				console.info("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.INFO+"; font-weight:700",msg);
+			}
+		},
+		success: function(msg,debug){
+			if(debug && plugSimple.settings.debug){
+				console.log("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.SUCCESS+"; font-weight:700",msg);
+			}else if(!debug){
+				console.log("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.SUCCESS+"; font-weight:700",msg);
 			}
 		}
 	},
@@ -106,10 +117,33 @@ plugSimple = {
 				}
 			});
 		},
+		chatStatus: function(){
+			API.on(API.CHAT, function(e){
+				plugSimple.logging.log("ChatEvent");
+				plugSimple.logging.info("Users UID = "+e.uid+" Client UID = "+API.getUser().id);
+				var color = plugSimple.colors.status[API.getUser(e.uid).status];
+				if(e.uid = API.getUser().id){
+					color = "ffdd6f";
+				}else if(API.getUser(e.uid).friends){
+					color = "00b5e6";
+				}else if(API.getUser(e.uid).role > 0){
+					color = plugSimple.colors.DEFAULT;
+				}else if($(".cm[data-cid=\""+e.cid+"\"] > .badge-box > i").hasClass("bdg-ba")){
+					color = "90ad2f";
+				}else{
+					color = "777f92"
+				}
+				plugSimple.logging.info("chat msg color = #"+color, true);
+				$(".cm[data-cid=\""+e.cid+"\"] > .badge-box").css("border","2px solid #"+color);
+			});
+		}
 	},
 	init: {
 		main: function(){
 			var s = new Date().getMilliseconds();
+			
+			plugSimple.PREFIX = "[PlugSimple v"+plugSimple.VERSION+"]";
+			
 			//LOAD EXTERNAL SCRIPTS
 			//if(typeof plugInterface == "undefined"){plugSimple.logging.log("Loaded plugInterfaceAPI status "+$.getScript("https://rawgit.com/itotallyrock/PlugInterfaceAPI/master/plugInterfaceAPI.js").readyState,true);}
 			if(typeof Command == "undefined"){plugSimple.logging.log("Loaded plugCommandAPI status "+$.getScript("https://rawgit.com/itotallyrock/PlugCommandAPI/master/plugCommandAPI.js").readyState,true);}
@@ -129,9 +163,7 @@ plugSimple = {
 			$("#dj-button").html($("#dj-button").html()+"<div class=\"bottom\"><span class=\"plugSimple-eta\"></span></div>")
 			$("#dj-button > .bottom").css("margin-top","-40px");
 			
-			API.on(API.CHAT, function(e){
-				$(".cm[data-cid=\""+e.cid+"\"] > .badge-box").css("border","2px solid #"+plugSimple.colors.status[API.getUser(e.uid).status]);
-			});
+			plugSimple.core.chatStatus();
 			
 			plugSimple.tick = setInterval(function(){plugSimple.init.tick();plugSimple.tickNum++;},(1/plugSimple.tickRate)*1000);
 			
@@ -143,7 +175,7 @@ plugSimple = {
 				plugSimple.logging.log("TICK #"+plugSimple.tickNum,true);
 			}
 			$(".plugSimple-eta").text(plugSimple.core.getETA());
-			if(new Date().getMilliseconds() - s > 1000){
+			if(new Date().getMilliseconds() - s > (1/plugSimple.tickRate)*1000){
 				plugSimple.logging.info("Tick took longer than tickRate: "+(new Date().getMilliseconds() - s)+"ms",true);
 			}
 		},
@@ -196,5 +228,4 @@ plugSimple = {
 		}
 	}
 };
-
 plugSimple.init.main();
