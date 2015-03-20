@@ -1,7 +1,7 @@
-if(typeof plugSimple !== "undefined"){plugSimple.init.stop("Launching new instance");}
+if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "0.03.3",
+	VERSION: "0.03.4",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
@@ -27,6 +27,7 @@ plugSimple = {
 		autowoot: false,
 		autodj: false,
 		debug: false,
+		chatLog: false,
 		tickLog: false
 	},
 	logging: {
@@ -118,8 +119,9 @@ plugSimple = {
 		},
 		chatStatus: function(){
 			API.on(API.CHAT, function(e){
-				plugSimple.logging.log("ChatEvent");
-				plugSimple.logging.info("Users UID = "+e.uid+" Client UID = "+API.getUser().id);
+				if(plugSimple.settings.debug && plugSimple.settings.chatLog){
+					console.log("%c"+plugSimple.PREFIX,"color: #"+plugSimple.colors.DEFAULT+"; font-weight:700","ChatEvent",[e]);
+				}
 				var color = plugSimple.colors.status[API.getUser(e.uid).status];
 				if(e.uid == API.getUser().id){
 					color = "ffdd6f";
@@ -219,8 +221,8 @@ plugSimple = {
 			plugSimple.logging.info("Ran update in "+(new Date().getMilliseconds() - s)+"ms",true);
 		},
 		stop: function(e){
+			var s = new Date().getMilliseconds(),q,errCodes = ["undefined","Relaunching","Unknown Crash","Syntax Crash","Stuck in loop"];
 			plugSimple.core.saveSettings();
-			var q;
 			
 			for(q in API){
 				if(typeof API[q] === "string"){
@@ -228,7 +230,11 @@ plugSimple = {
 				}
 			}
 			clearInterval(plugSimple.tick);
-			plugSimple.logging.warn("plugSimple has stopped ["+e+"].");
+			if(e > 1){
+				plugSimple.logging.error("plugSimple has stopped ("+(new Date().getMilliseconds() - s)+"ms) ["+errCodes[e]+"].");
+			}else{
+				plugSimple.logging.warn("plugSimple has stopped ("+(new Date().getMilliseconds() - s)+"ms) ["+errCodes[e]+"].");
+			}
 			delete plugSimple;
 		}
 	}
