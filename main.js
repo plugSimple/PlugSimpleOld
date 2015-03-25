@@ -1,7 +1,7 @@
 if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "0.03.4",
+	VERSION: "0.03.8",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
@@ -152,6 +152,8 @@ plugSimple = {
 			
 			//LOAD EXTERNAL SCRIPTS
 			//if(typeof plugInterface == "undefined"){plugSimple.logging.log("Loaded plugInterfaceAPI status "+$.getScript("https://rawgit.com/itotallyrock/PlugInterfaceAPI/master/plugInterfaceAPI.js").readyState,true);}
+			/*
+			TODO need to find an efficient way to check if the API is already loaded and if it loads correctly.
 			if(typeof Command == "undefined"){
 				var readyState = $.getScript("https://rawgit.com/itotallyrock/PlugCommandAPI/master/plugCommandAPI.js").readyState;
 				plugSimple.logging.log("Loaded plugCommandAPI status "+readyState,true);
@@ -160,7 +162,7 @@ plugSimple = {
 				}
 			}else{
 				plugSimple.logging.info("plugCommandAPI already loaded continuing",true);
-			}
+			}*/
 			
 			if(localStorage.getItem("plugSimple") !== null){
 				plugSimple.core.getSettings();
@@ -189,6 +191,7 @@ plugSimple = {
 			$(".plugSimple-eta").text(plugSimple.util.formatTime(plugSimple.core.getETA()));
 			if(new Date().getMilliseconds() - s > (1/plugSimple.tickRate)*1000){
 				plugSimple.logging.info("Tick took longer than tickRate: "+(new Date().getMilliseconds() - s)+"ms",true);
+				plugSimple.init.stop(4);
 			}
 		},
 		cmd: function(){//Initialize commands
@@ -235,6 +238,7 @@ plugSimple = {
 				}
 			}
 			clearInterval(plugSimple.tick);
+			$("[class^=\"plugSimple\"]").remove();
 			if(e > 1){
 				plugSimple.logging.error("plugSimple has stopped ("+(new Date().getMilliseconds() - s)+"ms) ["+errCodes[e]+"].");
 			}else{
