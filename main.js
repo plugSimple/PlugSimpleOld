@@ -67,6 +67,15 @@ plugSimple = {
 			}
 		}
 	},
+	util: {
+		formatTime: function(t){
+			var h = Math.floor(t / 3600);
+			var m = Math.floor((t - (h * 3600)) / 60);
+			var s = t - (h * 3600) - (m * 60);
+			
+			return (h < 10 ? "0"+h : h)+':'+(m < 10 ? "0"+m : m)+':'+(s < 10 ? "0"+s : s);
+		}
+	},
 	core: {
 		saveSettings: function(){
 			localStorage.setItem("plugSimple",JSON.stringify(plugSimple.settings));
@@ -95,11 +104,7 @@ plugSimple = {
 			avg = histlength/history.length;
 			
 			var sn = parseInt((API.getWaitListPosition() == -1 ? API.getWaitList().length : API.getWaitListPosition())*avg+API.getTimeRemaining(), 10);
-			var h = Math.floor(sn / 3600);
-			var m = Math.floor((sn - (h * 3600)) / 60);
-			var s = sn - (h * 3600) - (m * 60);
-			
-			return (h < 10 ? "0"+h : h)+':'+(m < 10 ? "0"+m : m)+':'+(s < 10 ? "0"+s : s);
+			return sn;
 		},
 		autoWoot: function(){
 			$("#woot").click();
@@ -181,7 +186,7 @@ plugSimple = {
 			if(plugSimple.tickNum%10 === 0 && plugSimple.settings.tickLog){
 				plugSimple.logging.log("TICK #"+plugSimple.tickNum,true);
 			}
-			$(".plugSimple-eta").text(plugSimple.core.getETA());
+			$(".plugSimple-eta").text(plugSimple.util.formatTime(plugSimple.core.getETA()));
 			if(new Date().getMilliseconds() - s > (1/plugSimple.tickRate)*1000){
 				plugSimple.logging.info("Tick took longer than tickRate: "+(new Date().getMilliseconds() - s)+"ms",true);
 			}
