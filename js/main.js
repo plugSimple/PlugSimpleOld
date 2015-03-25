@@ -160,8 +160,8 @@ plugSimple = {
 			if(localStorage.getItem("plugSimple") !== null){
 				plugSimple.core.getSettings();
 			}else{
-				plugSimple.core.saveSettings();
 				plugSimple.core.getSettings();
+				plugSimple.core.saveSettings();
 			}
 			
 			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
