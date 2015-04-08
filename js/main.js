@@ -77,6 +77,10 @@ plugSimple = {
 		}
 	},
 	core: {
+	    saveVersion: function(){
+		    localStorage.setItem("plugSimpleVersion",plugSimple.VERSION);//May do more elegant in future
+			plugSimple.logging.info("Version has been saved",true);
+		},
 		saveSettings: function(){
 			localStorage.setItem("plugSimple",JSON.stringify(plugSimple.settings));
 			plugSimple.logging.info("Settings have been saved.",true);
@@ -85,6 +89,15 @@ plugSimple = {
 			plugSimple.settings = JSON.parse(localStorage.getItem("plugSimple"));
 			plugSimple.logging.info("Retrieved Settings",true);
 		},
+		getLastVersion: function(){
+		    //if(localStorage.getItem("plugSimpleVersion").replace(".","").replace(/^0+(?!\.|$)/,"") != plugSimple.VERSION){
+		    if(localStorage.getItem("plugSimpleVersion") != plugSimple.VERSION){
+		        plugSimple.logging.warn("Latest Version Used ["+localStorage.getItem("plugSimpleVersion")+"] is not the same as current.");
+			}else{
+			    plugSimple.logging.success("Lastest Version Used is the same as current",true);
+			}
+		    return localStorage.getItem("plugSimpleVersion");
+		}
 		clearSettings: function(){
 			localStorage.removeItem("plugSimple");
 			plugSimple.logging.info("Cleared Settings",true);
@@ -164,11 +177,24 @@ plugSimple = {
 				plugSimple.logging.info("plugCommandAPI already loaded continuing",true);
 			}*/
 			
-			if(localStorage.getItem("plugSimple") !== null){
-				plugSimple.core.getSettings();
+			if(localStorage.getItem("plugSimpleVersion") !== "undefined"){
+			    if(plugSimple.core.getLastVersion() !== plugSimple.VERSION){
+				    plugSimple.core.clearSettings();
+				}else{
+				    if(localStorage.getItem("plugSimple") !== "undefined"){
+				        plugSimple.core.getSettings();
+			        }else{
+				        plugSimple.core.getSettings();
+				        plugSimple.core.saveSettings();
+			        }
+				}
 			}else{
-				plugSimple.core.getSettings();
-				plugSimple.core.saveSettings();
+			    if(localStorage.getItem("plugSimple") !== "undefined"){
+				    plugSimple.core.getSettings();
+			    }else{
+				    plugSimple.core.getSettings();
+				    plugSimple.core.saveSettings();
+			    }
 			}
 			
 			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
