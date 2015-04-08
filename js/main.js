@@ -1,7 +1,6 @@
 if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "0.03.8",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
@@ -69,9 +68,9 @@ plugSimple = {
 	},
 	util: {
 		formatTime: function(t){
-			var h = Math.floor(t / 3600);
-			var m = Math.floor((t - (h * 3600)) / 60);
-			var s = t - (h * 3600) - (m * 60);
+			var h = Math.floor(t / 3600),
+			    m = Math.floor((t - (h * 3600)) / 60),
+				s = t - (h * 3600) - (m * 60);
 			
 			return (h < 10 ? "0"+h : h)+':'+(m < 10 ? "0"+m : m)+':'+(s < 10 ? "0"+s : s);
 		}
@@ -91,13 +90,13 @@ plugSimple = {
 		},
 		getLastVersion: function(){
 		    //if(localStorage.getItem("plugSimpleVersion").replace(".","").replace(/^0+(?!\.|$)/,"") != plugSimple.VERSION){
-		    if(localStorage.getItem("plugSimpleVersion") != plugSimple.VERSION){
+		    if(localStorage.getItem("plugSimpleVersion") !== plugSimple.VERSION){
 		        plugSimple.logging.warn("Latest Version Used ["+localStorage.getItem("plugSimpleVersion")+"] is not the same as current.");
 			}else{
 			    plugSimple.logging.success("Lastest Version Used is the same as current",true);
 			}
 		    return localStorage.getItem("plugSimpleVersion");
-		}
+		},
 		clearSettings: function(){
 			localStorage.removeItem("plugSimple");
 			plugSimple.logging.info("Cleared Settings",true);
