@@ -1,6 +1,7 @@
 if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
+	VERSION: "0.04.0",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
