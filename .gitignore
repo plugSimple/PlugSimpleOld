@@ -2,3 +2,5 @@
 *.psd
 /external
 manifest.json
+/html/popup.html
+/js/background.js

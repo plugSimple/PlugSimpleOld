@@ -1,7 +1,7 @@
 if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "0.04.0",
+	VERSION: "0.04.1",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
@@ -89,15 +89,6 @@ plugSimple = {
 			plugSimple.settings = JSON.parse(localStorage.getItem("plugSimple"));
 			plugSimple.logging.info("Retrieved Settings",true);
 		},
-		getLastVersion: function(){
-		    //if(localStorage.getItem("plugSimpleVersion").replace(".","").replace(/^0+(?!\.|$)/,"") != plugSimple.VERSION){
-		    if(localStorage.getItem("plugSimpleVersion") !== plugSimple.VERSION){
-		        plugSimple.logging.warn("Latest Version Used ["+localStorage.getItem("plugSimpleVersion")+"] is not the same as current.");
-			}else{
-			    plugSimple.logging.success("Lastest Version Used is the same as current",true);
-			}
-		    return localStorage.getItem("plugSimpleVersion");
-		},
 		clearSettings: function(){
 			localStorage.removeItem("plugSimple");
 			plugSimple.logging.info("Cleared Settings",true);
@@ -158,6 +149,13 @@ plugSimple = {
 		}
 	},
 	init: {
+		check: function(){
+			if(typeof API !== 'undefined' && API.enabled){
+				plugSimple.init.main();
+			}else{
+				setTimeout(function(){plugSimple.init.check();},1000);
+			}
+		},
 		main: function(){
 			var s = new Date().getMilliseconds();
 			
@@ -176,25 +174,11 @@ plugSimple = {
 			}else{
 				plugSimple.logging.info("plugCommandAPI already loaded continuing",true);
 			}*/
-			
-			if(localStorage.getItem("plugSimpleVersion") !== "undefined"){
-			    if(plugSimple.core.getLastVersion() !== plugSimple.VERSION){
-				    plugSimple.core.clearSettings();
-				}else{
-				    if(localStorage.getItem("plugSimple") !== "undefined"){
-				        plugSimple.core.getSettings();
-			        }else{
-				        plugSimple.core.getSettings();
-				        plugSimple.core.saveSettings();
-			        }
-				}
+			if(localStorage.getItem("plugSimple") !== "undefined"){
+				plugSimple.core.getSettings();
 			}else{
-			    if(localStorage.getItem("plugSimple") !== "undefined"){
-				    plugSimple.core.getSettings();
-			    }else{
-				    plugSimple.core.getSettings();
-				    plugSimple.core.saveSettings();
-			    }
+				plugSimple.core.getSettings();
+				plugSimple.core.saveSettings();
 			}
 			
 			if(plugSimple.settings.autowoot){plugSimple.core.autoWoot();}
@@ -274,4 +258,4 @@ plugSimple = {
 		}
 	}
 };
-plugSimple.init.main();
+plugSimple.init.check();
