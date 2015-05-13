@@ -1,7 +1,7 @@
 if(typeof plugSimple !== "undefined"){plugSimple.init.stop(1);}
 plugSimple = {
 	AUTHOR: "R0CK",
-	VERSION: "0.04.1",
+	VERSION: "0.04.2",
 	PREFIX: "[PlugSimple]",
 	colors: {
 		ERROR: "bb0000",
@@ -20,6 +20,7 @@ plugSimple = {
 		AUTOWOOT_ON: "https://raw.githubusercontent.com/itotallyrock/PlugSimple/master/img/autowoot-on.png",
 		AUTOWOOT_OFF: "https://raw.githubusercontent.com/itotallyrock/PlugSimple/master/img/autowoot-dis.png"
 	},
+	checkTimeout: "",
 	tickRate: 1,//Ticks per second
 	tickNum: 0,
 	tick: "",
@@ -150,10 +151,16 @@ plugSimple = {
 	},
 	init: {
 		check: function(){
+			plugSimple.logging.log(typeof API !== 'undefined');
+			
+			plugSimple.logging.log("Checking for API. "+(typeof API !== 'undefined' && API.enabled));
 			if(typeof API !== 'undefined' && API.enabled){
+				plugSimple.logging.success("API Check Succeeded.");
+				clearTimeout(plugSimple.checkTimeout);
 				plugSimple.init.main();
 			}else{
-				setTimeout(function(){plugSimple.init.check();},1000);
+				plugSimple.logging.warn("API Check Failed attempting again.");
+				plugSimple.checkTimeout = setTimeout(function(){plugSimple.init.check();},1000);
 			}
 		},
 		main: function(){
